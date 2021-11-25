@@ -55,6 +55,7 @@ def train(args, pt_dir, chkpt_path, trainloader, valloader, writer, logger, hp, 
         model_g.train()
         model_d.train()
         for epoch in itertools.count(init_epoch+1):
+            print("Epoch: %d" % epoch)
             if epoch % hp.log.validation_interval == 0:
                 with torch.no_grad():
                     validate(hp, args, model_g, model_d, valloader, writer, step)
