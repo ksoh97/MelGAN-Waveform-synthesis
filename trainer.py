@@ -23,7 +23,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-c', '--config', type=str, default="/DataCommon2/ksoh/DeepLearning_Application/config/default.yaml",
                         help="yaml file for configuration")
-    parser.add_argument('-p', '--checkpoint_path', type=str, default="/DataCommon2/ksoh/DeepLearning_Application/best_model_save",
+    parser.add_argument('-p', '--checkpoint_path', type=str, default=None,
                         help="path of checkpoint pt file to resume training")
     parser.add_argument('-n', '--name', type=str, default="test",
                         help="name of the model for logging, saving checkpoint")
