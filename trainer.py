@@ -35,19 +35,19 @@ if __name__ == '__main__':
 
     pt_dir = os.path.join(hp.log.chkpt_dir, args.name)
     log_dir = os.path.join(hp.log.log_dir, args.name)
-    # os.makedirs(pt_dir, exist_ok=True)
-    # os.makedirs(log_dir, exist_ok=True)
+    os.makedirs(pt_dir, exist_ok=True)
+    os.makedirs(log_dir, exist_ok=True)
 
-    # logging.basicConfig(
-    #     level=logging.INFO,
-    #     format='%(asctime)s - %(levelname)s - %(message)s',
-    #     handlers=[
-    #         logging.FileHandler(os.path.join(log_dir,
-    #             '%s-%d.log' % (args.name, time.time()))),
-    #         logging.StreamHandler()
-    #     ]
-    # )
-    # logger = logging.getLogger()
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(levelname)s - %(message)s',
+        handlers=[
+            logging.FileHandler(os.path.join(log_dir,
+                '%s-%d.log' % (args.name, time.time()))),
+            logging.StreamHandler()
+        ]
+    )
+    logger = logging.getLogger()
 
     writer = MyWriter(hp, log_dir)
 
