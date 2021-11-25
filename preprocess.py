@@ -4,11 +4,20 @@ import tqdm
 import torch
 import argparse
 import numpy as np
+import GPUtil
 
 from utils.stft import TacotronSTFT
 from utils.hparams import HParam
 from utils.utils import read_wav_np
 
+GPU = -1
+
+if GPU == -1:
+    devices = "%d" % GPUtil.getFirstAvailable(order="memory")[0]
+else:
+    devices = "%d" % GPU
+
+os.environ["CUDA_VISIBLE_DEVICES"] = devices
 
 def main(hp, args):
     stft = TacotronSTFT(filter_length=hp.audio.filter_length,
@@ -35,15 +44,22 @@ def main(hp, args):
         mel = stft.mel_spectrogram(wav)
 
         melpath = wavpath.replace('.wav', '.mel')
+        melpath = melpath.replace('/wavs', '/mels')
         torch.save(mel, melpath)
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('-c', '--config', type=str, required=True,
+    parser.add_argument('-c', '--config', type=str,
+                        default="/DataCommon2/ksoh/DeepLearning_Application/config/default.yaml",
                         help="yaml file for config.")
-    parser.add_argument('-d', '--data_path', type=str, required=True,
+    parser.add_argument('-d', '--data_path', type=str,
+                        default="/DataCommon2/ksoh/DeepLearning_Application/LJSpeech-1.1",
                         help="root directory of wav files")
+    # parser.add_argument('-c', '--config', type=str, required=True,
+    #                     help="yaml file for config.")
+    # parser.add_argument('-d', '--data_path', type=str, required=True,
+    #                     help="root directory of wav files")
     args = parser.parse_args()
     hp = HParam(args.config)
 
