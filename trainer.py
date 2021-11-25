@@ -2,20 +2,30 @@ import os
 import time
 import logging
 import argparse
+import GPUtil
 
 from utils.train import train
 from utils.hparams import HParam
 from utils.writer import MyWriter
 from datasets.dataloader import create_dataloader
 
+GPU = -1
+
+if GPU == -1:
+    devices = "%d" % GPUtil.getFirstAvailable(order="memory")[0]
+else:
+    devices = "%d" % GPU
+
+os.environ["CUDA_VISIBLE_DEVICES"] = devices
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('-c', '--config', type=str, required=True,
+    parser.add_argument('-c', '--config', type=str, default="/DataCommon2/ksoh/DeepLearning_Application/config/default.yaml",
                         help="yaml file for configuration")
-    parser.add_argument('-p', '--checkpoint_path', type=str, default=None,
+    parser.add_argument('-p', '--checkpoint_path', type=str, default="/DataCommon2/ksoh/DeepLearning_Application/best_model_save",
                         help="path of checkpoint pt file to resume training")
-    parser.add_argument('-n', '--name', type=str, required=True,
+    parser.add_argument('-n', '--name', type=str, default="test",
                         help="name of the model for logging, saving checkpoint")
     args = parser.parse_args()
 
@@ -25,19 +35,19 @@ if __name__ == '__main__':
 
     pt_dir = os.path.join(hp.log.chkpt_dir, args.name)
     log_dir = os.path.join(hp.log.log_dir, args.name)
-    os.makedirs(pt_dir, exist_ok=True)
-    os.makedirs(log_dir, exist_ok=True)
+    # os.makedirs(pt_dir, exist_ok=True)
+    # os.makedirs(log_dir, exist_ok=True)
 
-    logging.basicConfig(
-        level=logging.INFO,
-        format='%(asctime)s - %(levelname)s - %(message)s',
-        handlers=[
-            logging.FileHandler(os.path.join(log_dir,
-                '%s-%d.log' % (args.name, time.time()))),
-            logging.StreamHandler()
-        ]
-    )
-    logger = logging.getLogger()
+    # logging.basicConfig(
+    #     level=logging.INFO,
+    #     format='%(asctime)s - %(levelname)s - %(message)s',
+    #     handlers=[
+    #         logging.FileHandler(os.path.join(log_dir,
+    #             '%s-%d.log' % (args.name, time.time()))),
+    #         logging.StreamHandler()
+    #     ]
+    # )
+    # logger = logging.getLogger()
 
     writer = MyWriter(hp, log_dir)
 

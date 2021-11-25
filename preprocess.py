@@ -44,7 +44,7 @@ def main(hp, args):
         mel = stft.mel_spectrogram(wav)
 
         melpath = wavpath.replace('.wav', '.mel')
-        melpath = melpath.replace('/wavs', '/mels')
+        # melpath = melpath.replace('/wavs', '/mels')
         torch.save(mel, melpath)
 
 

@@ -1,6 +1,6 @@
 data: # root path of train/validation data (either relative/absoulte path is ok)
-  train: ''
-  validation: ''
+  train: '/DataCommon2/ksoh/DeepLearning_Application/LJSpeech-1.1/wavs/train_files.txt'
+  validation: '/DataCommon2/ksoh/DeepLearning_Application/LJSpeech-1.1/wavs/test_files.txt'
 ---
 train:
   rep_discriminator: 1
