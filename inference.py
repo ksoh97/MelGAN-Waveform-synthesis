@@ -4,14 +4,26 @@ import tqdm
 import torch
 import argparse
 from scipy.io.wavfile import write
+import GPUtil
 
 from model.generator import Generator
 from utils.hparams import HParam, load_hparam_str
 
 MAX_WAV_VALUE = 32768.0
 
+GPU = -1
+
+if GPU == -1:
+    devices = "%d" % GPUtil.getFirstAvailable(order="memory")[0]
+else:
+    devices = "%d" % GPU
+
+os.environ["CUDA_VISIBLE_DEVICES"] = devices
+
 
 def main(args):
+    save_path = os.path.join(os.path.join(args.input_folder, args.checkpoint_path.split("/")[5]), args.checkpoint_path.split("/")[-1].split('.')[0])
+
     checkpoint = torch.load(args.checkpoint_path)
     if args.config is not None:
         hp = HParam(args.config)
@@ -33,16 +45,17 @@ def main(args):
             audio = audio.cpu().detach().numpy()
 
             out_path = melpath.replace('.mel', '_reconstructed_epoch%04d.wav' % checkpoint['epoch'])
+            out_path = os.path.join(save_path, out_path.split('/')[-1])
             write(out_path, hp.audio.sampling_rate, audio)
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('-c', '--config', type=str, default=None,
+    parser.add_argument('-c', '--config', type=str, default="/DataCommon2/ksoh/DeepLearning_Application/config/default.yaml",
                         help="yaml file for config. will use hp_str from checkpoint if not given.")
-    parser.add_argument('-p', '--checkpoint_path', type=str, required=True,
+    parser.add_argument('-p', '--checkpoint_path', type=str, default="/DataCommon2/ksoh/DeepLearning_Application/chkpt/First_training/First_training_0000.pt",
                         help="path of checkpoint pt file for evaluation")
-    parser.add_argument('-i', '--input_folder', type=str, required=True,
+    parser.add_argument('-i', '--input_folder', type=str, default="/DataCommon2/ksoh/DeepLearning_Application/LJSpeech-1.1/valid",
                         help="directory of mel-spectrograms to invert into raw audio. ")
     args = parser.parse_args()
 

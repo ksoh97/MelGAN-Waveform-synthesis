@@ -89,7 +89,6 @@ class STFT(torch.nn.Module):
             mode='reflect')
         input_data = input_data.squeeze(1)
 
-        # https://github.com/NVIDIA/tacotron2/issues/125
         forward_transform = F.conv1d(
             input_data.cuda(),
             Variable(self.forward_basis, requires_grad=False).cuda(),
