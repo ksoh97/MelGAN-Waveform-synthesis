@@ -23,7 +23,7 @@ os.environ["CUDA_VISIBLE_DEVICES"] = devices
 
 def main(args):
     save_path = os.path.join(os.path.join(args.input_folder, args.checkpoint_path.split("/")[5]), args.checkpoint_path.split("/")[-1].split('.')[0])
-
+    if not os.path.exists(save_path): os.makedirs(save_path)
     checkpoint = torch.load(args.checkpoint_path)
     if args.config is not None:
         hp = HParam(args.config)
@@ -53,8 +53,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-c', '--config', type=str, default="/DataCommon2/ksoh/DeepLearning_Application/config/default.yaml",
                         help="yaml file for config. will use hp_str from checkpoint if not given.")
-    parser.add_argument('-p', '--checkpoint_path', type=str, default="/DataCommon2/ksoh/DeepLearning_Application/chkpt/First_training/First_training_0000.pt",
-                        help="path of checkpoint pt file for evaluation")
+    parser.add_argument('-p', '--checkpoint_path', type=str, default="/DataCommon2/ksoh/DeepLearning_Application/chkpt/First_training/First_training_0125.pt",
+                        help="path of checkpoint pt file for evaluation") #  TODO: you should change the model weights for the evaluation
     parser.add_argument('-i', '--input_folder', type=str, default="/DataCommon2/ksoh/DeepLearning_Application/LJSpeech-1.1/valid",
                         help="directory of mel-spectrograms to invert into raw audio. ")
     args = parser.parse_args()
