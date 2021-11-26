@@ -8,7 +8,7 @@ import itertools
 import traceback
 
 from model.generator import Generator
-from model.multiscale import MultiScaleDiscriminator
+from model.multiscale import MultiScaleDiscriminator, SingleScaleDiscriminator
 from .utils import get_commit_hash
 from .validation import validate
 
@@ -16,6 +16,7 @@ from .validation import validate
 def train(args, pt_dir, chkpt_path, trainloader, valloader, writer, logger, hp, hp_str):
     model_g = Generator(hp.audio.n_mel_channels).cuda()
     model_d = MultiScaleDiscriminator().cuda()
+    # model_d = SingleScaleDiscriminator().cuda()
 
     optim_g = torch.optim.Adam(model_g.parameters(),
         lr=hp.train.adam.lr, betas=(hp.train.adam.beta1, hp.train.adam.beta2))
