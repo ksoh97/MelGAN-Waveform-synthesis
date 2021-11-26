@@ -22,7 +22,8 @@ os.environ["CUDA_VISIBLE_DEVICES"] = devices
 
 
 def main(args):
-    save_path = os.path.join(os.path.join(args.input_folder, args.checkpoint_path.split("/")[5]), args.checkpoint_path.split("/")[-1].split('.')[0])
+    save_path = os.path.join(os.path.join(args.input_folder.split("/LJ")[0],
+                                          "Result", args.checkpoint_path.split("/")[5]), args.checkpoint_path.split("/")[-1].split('.')[0])
     if not os.path.exists(save_path): os.makedirs(save_path)
     checkpoint = torch.load(args.checkpoint_path)
     if args.config is not None:
