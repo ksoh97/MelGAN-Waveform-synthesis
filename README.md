@@ -9,7 +9,7 @@ Pytorch re-implementation of [MelGAN: Generative Adversarial Networks for Condit
   
   > Stage 2. Transforms the intermediate representation back to audio (i.e., vocoder)
 - Representation
-  > Typically chosen to be easier to model than raw audio while preserving enough information to allow faithful inversion back to audio
+  - Typically chosen to be easier to model than raw audio while preserving enough information to allow faithful inversion back to audio
 
 ![fig2](https://user-images.githubusercontent.com/57162425/147518655-6a731bf4-ad05-435f-a3c9-54770fe4a79d.png)
 
