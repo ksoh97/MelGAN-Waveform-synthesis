@@ -29,7 +29,7 @@ Pytorch re-implementation of [MelGAN: Generative Adversarial Networks for Condit
   - Stack of transposed convolutional layers are used to upsample the input sequence and each trnasposed convolutional layers is followed by a stack of residual blocks with dilated convolutions.
 
 - **Discriminator**
-  - Multi-scale architecture with 3 discriminators that have identical network structure but operate on different audio scales are adopted.
+  - Multi-scale architecture with three discriminators that have identical network structure but operate on different audio scales are adopted.
   - This structure has an inductive bias that each discriminator learns features for different frequency range of the audio.
 
 
